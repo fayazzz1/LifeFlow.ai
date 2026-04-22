@@ -1,0 +1,377 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 4%;
+    --foreground: 0 0% 95%;
+
+    --card: 220 15% 7%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 220 15% 7%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 250 70% 56%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 12% 12%;
+    --secondary-foreground: 0 0% 90%;
+
+    --muted: 220 10% 14%;
+    --muted-foreground: 220 8% 50%;
+
+    --accent: 250 70% 56%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 10% 14%;
+    --input: 220 10% 14%;
+    --ring: 250 70% 56%;
+
+    --radius: 1rem;
+
+    /* Obsidian theme tokens */
+    --obsidian-bg: #0B0F14;
+    --obsidian-surface: rgba(15, 20, 30, 0.7);
+    --obsidian-surface-hover: rgba(20, 26, 40, 0.8);
+    --obsidian-border: rgba(100, 120, 200, 0.08);
+    --obsidian-border-hover: rgba(120, 140, 220, 0.15);
+    --obsidian-glow-purple: rgba(139, 92, 246, 0.15);
+    --obsidian-glow-blue: rgba(99, 102, 241, 0.12);
+    --obsidian-text-primary: rgba(240, 240, 255, 0.95);
+    --obsidian-text-secondary: rgba(160, 170, 200, 0.7);
+    --obsidian-text-muted: rgba(130, 140, 170, 0.5);
+
+    --accent-cyan: 200 90% 55%;
+    --accent-purple: 258 72% 60%;
+    --accent-indigo: 240 70% 58%;
+
+    --glass-bg: rgba(15, 20, 30, 0.55);
+    --glass-border: rgba(100, 120, 200, 0.08);
+    --glass-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.5);
+
+    --gradient-glow: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(99, 102, 241, 0.06));
+    --gradient-glow-border: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(99, 102, 241, 0.15));
+
+    --sidebar-background: 220 20% 4%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 250 70% 56%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 12% 12%;
+    --sidebar-accent-foreground: 0 0% 90%;
+    --sidebar-border: 220 10% 14%;
+    --sidebar-ring: 250 70% 56%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--obsidian-bg);
+    color: var(--obsidian-text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.01em;
+    overflow-x: hidden;
+  }
+}
+
+/* ── Background ambient glow ───────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 600px 500px at 15% 30%, rgba(139, 92, 246, 0.04), transparent),
+    radial-gradient(ellipse 500px 400px at 85% 70%, rgba(99, 102, 241, 0.03), transparent),
+    radial-gradient(ellipse 400px 300px at 50% 10%, rgba(56, 189, 248, 0.02), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Glass panels ──────────────────────────────────── */
+@layer components {
+  .glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    box-shadow: var(--glass-shadow);
+    transition:
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.4s ease;
+  }
+  .glass-panel:hover {
+    transform: translateY(-3px);
+    border-color: var(--obsidian-border-hover);
+    box-shadow:
+      0 12px 40px -8px rgba(0, 0, 0, 0.6),
+      0 0 60px -20px rgba(139, 92, 246, 0.06);
+  }
+
+  /* ── Glow button ───────────────────────────────── */
+  .btn-glow {
+    background: var(--gradient-glow);
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    color: hsl(var(--accent-purple));
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(99, 102, 241, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .btn-glow:hover::before {
+    opacity: 1;
+  }
+  .btn-glow:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.2);
+    border-color: rgba(139, 92, 246, 0.4);
+  }
+  .btn-glow:active {
+    transform: scale(0.97);
+  }
+
+  /* ── Habit day cells with 3 states ─────────────── */
+  .day-cell {
+    @apply relative flex items-center justify-center overflow-hidden cursor-pointer;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    border: 2px solid rgba(100, 120, 200, 0.1);
+    background: rgba(15, 20, 35, 0.4);
+    transition:
+      border-color 0.4s ease,
+      box-shadow 0.4s ease,
+      background 0.4s ease,
+      transform 0.2s ease;
+  }
+  .day-cell:hover {
+    border-color: rgba(139, 92, 246, 0.3);
+    transform: scale(1.1);
+  }
+  .day-cell:active {
+    transform: scale(0.92);
+  }
+  .day-cell::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+    z-index: 0;
+    border-radius: inherit;
+  }
+
+  /* State 1: Partial — soft fill from bottom */
+  .day-cell.state-1 {
+    border-color: rgba(139, 92, 246, 0.25);
+  }
+  .day-cell.state-1::before {
+    height: 33%;
+    background: rgba(139, 92, 246, 0.35);
+  }
+
+  /* State 2: Medium — half fill */
+  .day-cell.state-2 {
+    border-color: rgba(139, 92, 246, 0.4);
+  }
+  .day-cell.state-2::before {
+    height: 66%;
+    background: linear-gradient(to top, rgba(139, 92, 246, 0.5), rgba(99, 102, 241, 0.4));
+  }
+
+  /* State 3: Completed — full glow */
+  .day-cell.state-3 {
+    border-color: rgba(139, 92, 246, 0.7);
+    box-shadow:
+      0 0 12px rgba(139, 92, 246, 0.3),
+      inset 0 0 8px rgba(139, 92, 246, 0.1);
+  }
+  .day-cell.state-3::before {
+    height: 100%;
+    background: linear-gradient(to top, rgba(139, 92, 246, 0.6), rgba(99, 102, 241, 0.5));
+  }
+
+  /* ── Macro fill bar ────────────────────────────── */
+  .macro-fill {
+    height: 100%;
+    background: linear-gradient(90deg, hsl(var(--accent-purple)), hsl(var(--accent-indigo)));
+    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: inherit;
+  }
+
+  /* ── Insight card ──────────────────────────────── */
+  .insight-card {
+    background: rgba(139, 92, 246, 0.04);
+    border-left: 3px solid hsl(var(--accent-purple));
+    @apply p-4 rounded-r-xl mb-3 text-sm;
+    color: rgba(240, 240, 255, 0.85);
+  }
+
+  /* ── Correction box ────────────────────────────── */
+  .correction-box {
+    background: rgba(99, 102, 241, 0.04);
+    border-left: 3px solid hsl(var(--accent-indigo));
+    color: hsl(var(--accent-indigo));
+    @apply p-4 rounded-xl text-sm mt-5;
+  }
+
+  /* ── Heat cells ────────────────────────────────── */
+  .heat-cell {
+    aspect-ratio: 1;
+    background: rgba(255, 255, 255, 0.03);
+    @apply rounded;
+    transition: background 0.3s ease;
+  }
+  .heat-1 { background: rgba(139, 92, 246, 0.15); }
+  .heat-2 { background: rgba(139, 92, 246, 0.35); }
+  .heat-3 {
+    background: rgba(139, 92, 246, 0.65);
+    box-shadow: 0 0 8px rgba(139, 92, 246, 0.3);
+  }
+
+  /* ── Options menu (3 dots) ─────────────────────── */
+  .habit-options-menu {
+    background: rgba(15, 20, 30, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(100, 120, 200, 0.12);
+    border-radius: 12px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+    min-width: 140px;
+    padding: 4px;
+    z-index: 50;
+  }
+  .habit-options-menu button {
+    @apply w-full text-left px-3 py-2 text-sm rounded-lg;
+    color: var(--obsidian-text-secondary);
+    transition: all 0.15s ease;
+  }
+  .habit-options-menu button:hover {
+    background: rgba(139, 92, 246, 0.08);
+    color: var(--obsidian-text-primary);
+  }
+  .habit-options-menu button.destructive:hover {
+    background: rgba(239, 68, 68, 0.08);
+    color: hsl(0 72% 65%);
+  }
+
+  /* ── Reset icon button ─────────────────────────── */
+  .reset-btn {
+    @apply inline-flex items-center justify-center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--obsidian-text-muted);
+    transition: all 0.2s ease;
+    font-size: 10px;
+    cursor: pointer;
+    border: none;
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  .day-cell-wrap:hover .reset-btn {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .reset-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: hsl(0 72% 65%);
+  }
+
+  /* ── Tooltip ───────────────────────────────────── */
+  .tooltip-custom {
+    background: rgba(15, 20, 30, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(100, 120, 200, 0.1);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    color: var(--obsidian-text-secondary);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+}
+
+/* ── Keyframe animations ─────────────────────────── */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(15px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(139, 92, 246, 0.15); }
+  50% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }
+}
+
+@keyframes ringProgress {
+  from { stroke-dashoffset: 314; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+/* ── Scrollbar styling ───────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 120, 200, 0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 120, 200, 0.25);
+}
+
+/* ── Selection ───────────────────────────────────── */
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: white;
+}
